@@ -2,7 +2,7 @@
 
 __version__ = 5.0
 
-import sys, os, time, random, threading
+import sys, os, time, requests, random, threading
 from colorama import init, Fore,  Back,  Style
 
 init()
@@ -44,11 +44,12 @@ def loadlib():
 
 	global requests, BeautifulSoup, re, SingleTable, AsciiTable, smtplib, socket, webbrowser, json, date, exifread, internet # monip # , colorama
 	# monip = requests.get("https://api.ipify.org/").text
-	try:
-		req = requests.get("https://google.com/")
-		internet = Fore.GREEN+"√"+Fore.RESET
-	except:
-		internet = Fore.RED+"X"+Fore.RESET
+try:
+    req = requests.get("https://google.com/")
+    internet = Fore.GREEN+"√"+Fore.RESET
+except:
+    internet = Fore.RED+"X"+Fore.RESET
+
 
 def loadingHack(importlib):
 	chaine = '[*] Start LittleBrother...'
@@ -160,7 +161,7 @@ class receiveSms:
 
 		self.server_list = serverOnline
 		self.url_of_site = url
-	
+
 	def sms(self, url):
 
 		req = requests.get(url)
@@ -173,7 +174,7 @@ class receiveSms:
 
 		self.contentMessages = regroup
 		self.messageText = messagesList[1]
-		self.fromUser = fromUsersList[1] 
+		self.fromUser = fromUsersList[1]
 		self.count = int(len(fromUsersList))
 
 class instagramGetInfo:
@@ -189,7 +190,7 @@ class instagramGetInfo:
 		# username = re.findall(r"\"username\":\"([a-zA-Z0-9 _ - \. ]+)\"", page)
 		jsonData = re.findall(r"<script type=\"text/javascript\">(.*);</script>", page)
 		jsonDataFound = jsonData[0].replace("window._sharedData = ", "")
-		
+
 		values = json.loads(jsonDataFound)
 
 		profilId = values['entry_data']['ProfilePage'][0]['graphql']['user']['id']
@@ -201,7 +202,7 @@ class instagramGetInfo:
 		friend = values['entry_data']['ProfilePage'][0]['graphql']['user']['edge_follow']['count']
 		media = values['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['count']
 		profilPicHd = values['entry_data']['ProfilePage'][0]['graphql']['user']['profile_pic_url_hd']
-		
+
 		self.id = profilId
 		self.profi_pic_hd = profilPicHd
 		self.biography = bio
@@ -221,10 +222,10 @@ class twitterSearchTool():
 		page = requests.get("https://twitter.com/search?f=users&vertical=default&q=%s" % (nom)).text #.content.decode('utf-8')
 		datas = re.findall(r"data-screen-name=\"(.*) ", page)
 		# data = data.replace("\"", '').replace("data-screen-name=", '').replace("data-name=", '')
-		
+
 		usernamesList = []
 		namesList = []
-		
+
 		for d in datas:
 			d = d.split("data-name=")
 			usernamesList.append(d[0].replace("\" ", ''))
@@ -394,7 +395,7 @@ class facebookSearchTool:
 				pass
 
 		regroup = zip(usersAccount, nameAccount)
-	
+
 		return(regroup)
 
 	def getInfoProfile(self, profile):
@@ -411,14 +412,14 @@ class facebookSearchTool:
 				facebookID = findId.replace("entity_id=", '')
 			else:
 				self.facebookId = "None"
-			
+
 			self.facebookId = facebookID
 
 		except:
 			self.facebookId = "None"
 
 		name = re.search(r'pageTitle\">(.*)</title>', page).group(0)
-			
+
 		if name:
 			name = name.replace("pageTitle\">", '').replace("| Facebook</title>", '')
 			self.name = name
@@ -447,9 +448,9 @@ class facebookSearchTool:
 		nom = profile.replace("https://www.facebook.com/", '')
 
 		page = requests.get(profile).content.decode('utf-8')
-		
+
 		urlsPages = re.findall('http[s]?://www.facebook.com/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', page)
-		
+
 		for nbr in urlsPages:
 			c = urlsPages.count(nbr)
 			if c > 1:
@@ -559,7 +560,7 @@ def printResult(name, adresse, num):
 	# adresse = adresse.split(",")
 	# print("\n[Adresse]\n %s %s " % (adresse[0], adresse[1]))
 	# print(" \n[Phone]\n %s" % (num))
-	
+
 	print("\n[Particulier] %s" % (name))
 	adresse = adresse.split(",")
 	print("(+) Adresse: %s %s" % (adresse[0], adresse[1]))
@@ -615,7 +616,7 @@ def emailSpam():
 
 	except:
 		print("[!] Erreur")
-		
+
 def facebookStalk():
 	profile = input("\n[#][LittleBrother][Lookup][ProfileFB:~$ ")
 
@@ -631,7 +632,7 @@ def facebookStalk():
     ------------        [9] Locaux           [15] Hotels
     [17] Photos                              [16] Theatre
     [18] Videos          COMMENTAIRE
-    [19] Publications   -------------          INTERETS     
+    [19] Publications   -------------          INTERETS
                         [20] Photos          -------------
         PROFIL                               [29] Pages
     -------------                            [30] Politiques
@@ -707,12 +708,12 @@ def facebookStalk():
 
 	try:
 		fbtool.getInfoProfile(profile)
-		
+
 		loc = fbtool.location
 		work = fbtool.work
 		name = fbtool.name
 		ID = fbtool.facebookId
-		
+
 		facebookID = ID
 
 	except:
@@ -731,7 +732,7 @@ def facebookStalk():
 
 		print(resultProfile % (name, work, loc, ID))
 		print(menuStalk)
-		
+
 		while True:
 			s = input("\n[#][LittleBrother][Lookup][StalkFB:~$ ")
 			if s == "help":
@@ -771,7 +772,7 @@ def bssidFinder():
 		print("[!] Localisation Not Found")
 	else:
 		pass
-	
+
 	try:
 		localisation = str(values['data']['lat']) + ','+str(values['data']['lon'])
 		print("\n[ %s ]" % (bssid))
@@ -861,7 +862,7 @@ def SearchEmail4():
 				if not "googleusercontent" in url:
 					if not "/settings/ads" in url:
 						if not "webcache.googleusercontent.com/" in url:
-							if not "/policies/faq" in url:	
+							if not "/policies/faq" in url:
 								try:
 									# print("(%s) link scanned. " % (str(x)))
 									texte = requests.get(url).text
@@ -991,7 +992,7 @@ def searchCopainsdavant(nom, city):
 		item = len(birthdayList0)
 		if item == 0:
 		 	birthdayList0.append("None")
-	
+
 		for b in birthdayList0:
 			birthdayList.append(str(b))
 
@@ -999,7 +1000,7 @@ def searchCopainsdavant(nom, city):
 		item = len(travailList0)
 		if item == 0:
 		 	travailList0.append("None")
-	
+
 		for t in travailList0:
 			travailList.append(str(t))
 
@@ -1097,14 +1098,14 @@ def searchPJ(requete='', num=''):
 		phone = searchInfoNumero()
 		phone.search(num.text.strip())
 		operator = phone.operator
-		operatorList.append(operator) 
+		operatorList.append(operator)
 		numesList2.append(num.text.strip())
 	# except:
 	# 	pass
 	# 	print("[!] Aucun resultat pour votre recherche... o_o'")
 
 	regroup = zip(namesList2,addressesList2,numesList2, operatorList)
-	
+
 	title = " Particulier "
 
 	TABLE_DATA = [
@@ -1114,7 +1115,7 @@ def searchPJ(requete='', num=''):
 	listeInfos = []
 
 	for infos in regroup:
-		
+
 		try:
 
 			TABLE_DATA.append(infos)
@@ -1151,7 +1152,7 @@ def searchGoogle(requete='', requete2=''):
 		"%3F": "?",
 		"%40": "@",
 		"%5B": "[",
-		"%5D": "]", 
+		"%5D": "]",
 		"%20": " ",
 		"%22": "\"",
 		"%25": "%",
@@ -1216,14 +1217,14 @@ def searchPersonne():
         	'Accept-Language': 'en-US,en;q=0.9',
         	'Pragma': 'no-cache'
         }
-        
+
 		requete = requests.get(url.format(nom, city), headers=headers)
 		searchPJ(requete)
 
 # Copain d'avant search
 		searchCopainsdavant(nom, city)
 
-# Facebook search		
+# Facebook search
 		fbtool = facebookSearchTool()
 		accountsFb = fbtool.searchFacebook(nom)
 
@@ -1248,12 +1249,12 @@ def searchPersonne():
 			tuples = (name, username, loc)
 			# listeInfos.append(tuples)
 			TABLE_DATA.append(tuples)
-		
+
 		if count > 0:
 			table_instance = SingleTable(TABLE_DATA, title)
 			print(table_instance.table)
-		
-# Twitter Search		
+
+# Twitter Search
 		title = " Twitter "
 
 		TABLE_DATA = [
@@ -1270,7 +1271,7 @@ def searchPersonne():
 			name = a[1]
 			username = "@"+a[0]
 			twitool.getInfoProfile(a[0])
-			
+
 			location = twitool.location
 			date = twitool.birth
 			bio = twitool.description
@@ -1378,7 +1379,7 @@ def receive_sms():
 	times = logTimes()
 	receive = receiveSms()
 	receive.searchServer()
-	
+
 	servers = receive.server_list
 	numDic = {}
 	url = receive.url_of_site
@@ -1395,10 +1396,10 @@ def receive_sms():
 		country = num[2]
 
 		numDic[index] = numero+'-'+country
-	
+
 		tuples = (index, "+"+numero, country)
 		TABLE_DATA.append(tuples)
-	
+
 	table_instance = SingleTable(TABLE_DATA, title)
 	print(table_instance.table)
 
@@ -1464,7 +1465,7 @@ def mailToIP():
 		print("\n Fichier introuvable.")
 	else:
 		pass
-	# clear()		
+	# clear()
 	print(wait+" Recherche en cours ...")
 	f = open(files, 'r')
 
@@ -1551,7 +1552,7 @@ def hashdecrypt():
 	print(wait+" Decrypt '%s'..." % (hash))
 	lkd = leaked()
 	password = lkd.hash(hash)
-	
+
 	if password:
 		print(found+" %s : %s" % (hash, password))
 	else:
@@ -1571,7 +1572,7 @@ def showDataBase():
 
 		nameFile = nameCapital[0] + '_' + nameCapital[1] + '.txt'
 
-		return(nameFile) 
+		return(nameFile)
 
 	def readProfile(name):
 		f = open('Watched/'+name, 'r')
@@ -1633,12 +1634,12 @@ def showDataBase():
 			nameFile = nameToFile(name)
 
 			find = ProfilesDic.get(nameFile)
-			
+
 			if not find:
 				nameReversed = reverseName(name)
 				nameReversedFile = nameToFile(nameReversed)
 				find = ProfilesDic.get(nameReversedFile)
-				
+
 				if not find:
 					print("[!] No profiles found for '%s'." % (name))
 					# print("[?] View all profiles [ Y / N ]")
@@ -1647,7 +1648,7 @@ def showDataBase():
 					# 	showAllProfiles(ProfilesDic)
 					# else:
 					# 	pass
-				
+
 				else:
 					num = ProfilesDic.get(nameReversedFile)
 					print("[+] Profile found for name: %s." % (nameReversed))
@@ -1672,22 +1673,22 @@ def showDataBase():
 """
 
 	menuLogo = """
-      :::::::::      ::: ::::::::::: :::           
-     :+:    :+:   :+: :+:   :+:   :+: :+:          
-    +:+    +:+  +:+   +:+  +:+  +:+   +:+          
-   +#+    +:+ +#++:++#++: +#+ +#++:++#++:          
-  +#+    +#+ +#+     +#+ +#+ +#+     +#+           
- #+#    #+# #+#     #+# #+# #+#     #+#            
-#########  ###     ### ### ###     ###             
-      :::::::::      :::      ::::::::  :::::::::: 
-     :+:    :+:   :+: :+:   :+:    :+: :+:         
-    +:+    +:+  +:+   +:+  +:+        +:+          
-   +#++:++#+  +#++:++#++: +#++:++#++ +#++:++#      
-  +#+    +#+ +#+     +#+        +#+ +#+            
- #+#    #+# #+#     #+# #+#    #+# #+#             
-#########  ###     ###  ########  ##########       
+      :::::::::      ::: ::::::::::: :::
+     :+:    :+:   :+: :+:   :+:   :+: :+:
+    +:+    +:+  +:+   +:+  +:+  +:+   +:+
+   +#+    +:+ +#++:++#++: +#+ +#++:++#++:
+  +#+    +#+ +#+     +#+ +#+ +#+     +#+
+ #+#    #+# #+#     #+# #+# #+#     #+#
+#########  ###     ### ### ###     ###
+      :::::::::      :::      ::::::::  ::::::::::
+     :+:    :+:   :+: :+:   :+:    :+: :+:
+    +:+    +:+  +:+   +:+  +:+        +:+
+   +#++:++#+  +#++:++#++: +#++:++#++ +#++:++#
+  +#+    +#+ +#+     +#+        +#+ +#+
+ #+#    #+# #+#     #+# #+#    #+# #+#
+#########  ###     ###  ########  ##########
 """
-		
+
 	menu = "\n[s] Search Profiles     [a] Show all Profiles    [e] Exit Database    [c] Clear screen   [h] Help message"
 
 	clear()
@@ -1697,41 +1698,41 @@ def showDataBase():
 
 	ProfilesDic = {}
 	x = 1
-		
+
 	if os.path.exists("Watched"):
 		print("[+] Data Found.")
-	
+
 	else:
 		print("[!] Data not found ! ")
 		print("[?] Want to create a new folder ? [ Y / N ]")
 		s = input(" ")
-		
+
 		if s.upper() == 'Y':
 			mkdir("Watched")
 			print("[+] The file was successfully created.")
-		
+
 		else:
 			pass
-		
+
 	datas = os.listdir("Watched")
-	
+
 	for data in datas:
 		# print("%s) %s" % (str(x), data.replace(".txt", "")))
 		ProfilesDic[data] = x
 		x = x + 1
-	
+
 		if str(x) == '0':
 			print("[!] No profiles found.")
-	
+
 	else:
 		profilesCount = x-1
 		print("[+] %s Profiles Found." % (str(profilesCount)))
-	
+
 		while True:
 			print(menu)
-	
+
 			choix = input("\n[#][LittleBrother][Database:~$ ")
-			
+
 			if choix.lower() == 'h':
 				print(helpMsg)
 			elif choix.lower() == 's':
@@ -1748,89 +1749,89 @@ def showDataBase():
 
 
 header1 = """
-  _      _ _   _   _      ____            _   _               
- | |    (_) | | | | |    |  _ \          | | | |              
- | |     _| |_| |_| | ___| |_) |_ __ ___ | |_| |__   ___ _ __ 
+  _      _ _   _   _      ____            _   _
+ | |    (_) | | | | |    |  _ \          | | | |
+ | |     _| |_| |_| | ___| |_) |_ __ ___ | |_| |__   ___ _ __
  | |    | | __| __| |/ _ \  _ <| '__/ _ \| __| '_ \ / _ \ '__|
- | |____| | |_| |_| |  __/ |_) | | | (_) | |_| | | |  __/ |   
- |______|_|\__|\__|_|\___|____/|_|  \___/ \__|_| |_|\___|_|   
+ | |____| | |_| |_| |  __/ |_) | | | (_) | |_| | | |  __/ |
+ |______|_|\__|\__|_|\___|____/|_|  \___/ \__|_| |_|\___|_|
 """
 
 header2 = """
 
- /$$       /$$   /$$     /$$     /$$           /$$$$$$$                        /$$     /$$                          
-| $$      |__/  | $$    | $$    | $$          | $$__  $$                      | $$    | $$                          
-| $$       /$$ /$$$$$$ /$$$$$$  | $$  /$$$$$$ | $$  \ $$  /$$$$$$   /$$$$$$  /$$$$$$  | $$$$$$$   /$$$$$$   /$$$$$$ 
+ /$$       /$$   /$$     /$$     /$$           /$$$$$$$                        /$$     /$$
+| $$      |__/  | $$    | $$    | $$          | $$__  $$                      | $$    | $$
+| $$       /$$ /$$$$$$ /$$$$$$  | $$  /$$$$$$ | $$  \ $$  /$$$$$$   /$$$$$$  /$$$$$$  | $$$$$$$   /$$$$$$   /$$$$$$
 | $$      | $$|_  $$_/|_  $$_/  | $$ /$$__  $$| $$$$$$$  /$$__  $$ /$$__  $$|_  $$_/  | $$__  $$ /$$__  $$ /$$__  $$
 | $$      | $$  | $$    | $$    | $$| $$$$$$$$| $$__  $$| $$  \__/| $$  \ $$  | $$    | $$  \ $$| $$$$$$$$| $$  \__/
-| $$      | $$  | $$ /$$| $$ /$$| $$| $$_____/| $$  \ $$| $$      | $$  | $$  | $$ /$$| $$  | $$| $$_____/| $$      
-| $$$$$$$$| $$  |  $$$$/|  $$$$/| $$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$/  |  $$$$/| $$  | $$|  $$$$$$$| $$      
-|________/|__/   \___/   \___/  |__/ \_______/|_______/ |__/       \______/    \___/  |__/  |__/ \_______/|__/                                                                                                                       
+| $$      | $$  | $$ /$$| $$ /$$| $$| $$_____/| $$  \ $$| $$      | $$  | $$  | $$ /$$| $$  | $$| $$_____/| $$
+| $$$$$$$$| $$  |  $$$$/|  $$$$/| $$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$/  |  $$$$/| $$  | $$|  $$$$$$$| $$
+|________/|__/   \___/   \___/  |__/ \_______/|_______/ |__/       \______/    \___/  |__/  |__/ \_______/|__/
 """
 
 header5 = """
- ___        __  ___________  ___________  ___       _______                  
-|"  |      |" \\("     _   ")("     _   ")|"  |     /"     "|                 
-||  |      ||  |)__/  \\__/  )__/  \\__/ ||  |    (: ______)                 
-|:  |      |:  |   \\_ /        \\_ /    |:  |     \\/    |                   
- \\  |___   |.  |   |.  |        |.  |     \\  |___  // ___)_                  
-( \\_|:  \\  /\\  |\\  \\:  |        \\:  |    ( \\_|:  \\(:      "|                 
- \\_______)(__\\_|_)  \\__|         \\__|     \\_______)\\_______)                                                                               
- _______    _______     ______  ___________  __    __    _______   _______   
-|   _  "\\  /"      \\   /    " \\("     _   ")/" |  | "\\  /"     "| /"      \\  
-(. |_)  :)|:        | // ____  \\)__/  \\__/(:  (__)  :)(: ______)|:        | 
-|:     \\/ |_____/   )/  /    ) :)  \\_ /    \\/      \\/  \\/    |  |_____/   ) 
-(|  _  \\  //      /(: (____/ //   |.  |    //  __  \\  // ___)_  //      /  
-|: |_)  :)|:  __   \\ \\        /    \\:  |   (:  (  )  :)(:      "||:  __   \\  
-(_______/ |__|  \\___) \"_____/      \\__|    \\__|  |__/  \\_______)|__|  \\___) 
+ ___        __  ___________  ___________  ___       _______
+|"  |      |" \\("     _   ")("     _   ")|"  |     /"     "|
+||  |      ||  |)__/  \\__/  )__/  \\__/ ||  |    (: ______)
+|:  |      |:  |   \\_ /        \\_ /    |:  |     \\/    |
+ \\  |___   |.  |   |.  |        |.  |     \\  |___  // ___)_
+( \\_|:  \\  /\\  |\\  \\:  |        \\:  |    ( \\_|:  \\(:      "|
+ \\_______)(__\\_|_)  \\__|         \\__|     \\_______)\\_______)
+ _______    _______     ______  ___________  __    __    _______   _______
+|   _  "\\  /"      \\   /    " \\("     _   ")/" |  | "\\  /"     "| /"      \\
+(. |_)  :)|:        | // ____  \\)__/  \\__/(:  (__)  :)(: ______)|:        |
+|:     \\/ |_____/   )/  /    ) :)  \\_ /    \\/      \\/  \\/    |  |_____/   )
+(|  _  \\  //      /(: (____/ //   |.  |    //  __  \\  // ___)_  //      /
+|: |_)  :)|:  __   \\ \\        /    \\:  |   (:  (  )  :)(:      "||:  __   \\
+(_______/ |__|  \\___) \"_____/      \\__|    \\__|  |__/  \\_______)|__|  \\___)
 """
 
 header6 = """
- _      ____  ______  ______  _        ___  ____   ____    ___   ______  __ __    ___  ____  
-| T    l    j|      T|      T| T      /  _]|    \\ |    \\  /   \\ |      T|  T  T  /  _]|    \\ 
+ _      ____  ______  ______  _        ___  ____   ____    ___   ______  __ __    ___  ____
+| T    l    j|      T|      T| T      /  _]|    \\ |    \\  /   \\ |      T|  T  T  /  _]|    \\
 | |     |  T |      ||      || |     /  [_ |  o  )|  D  )Y     Y|      ||  l  | /  [_ |  D  )
-| l___  |  | l_j  l_jl_j  l_j| l___ Y    _]|     T|    / |  O  |l_j  l_j|  _  |Y    _]|    / 
-|     T |  |   |  |    |  |  |     T|   [_ |  O  ||    \\ |     |  |  |  |  |  ||   [_ |    \\ 
+| l___  |  | l_j  l_jl_j  l_j| l___ Y    _]|     T|    / |  O  |l_j  l_j|  _  |Y    _]|    /
+|     T |  |   |  |    |  |  |     T|   [_ |  O  ||    \\ |     |  |  |  |  |  ||   [_ |    \\
 |     | j  l   |  |    |  |  |     ||     T|     ||  .  Yl     !  |  |  |  |  ||     T|  .  Y
 l_____j|____j  l__j    l__j  l_____jl_____jl_____jl__j\\_j \\___/   l__j  l__j__jl_____jl__j\\_j
 """
 
 header7 = """
- _    _    _      _    _       ___             _    _             
-| |  <_> _| |_  _| |_ | | ___ | . > _ _  ___ _| |_ | |_  ___  _ _ 
+ _    _    _      _    _       ___             _    _
+| |  <_> _| |_  _| |_ | | ___ | . > _ _  ___ _| |_ | |_  ___  _ _
 | |_ | |  | |    | |  | |/ ._>| . \| '_>/ . \ | |  | . |/ ._>| '_>
-|___||_|  |_|    |_|  |_|\___.|___/|_|  \___/ |_|  |_|_|\___.|_|                                                       
+|___||_|  |_|    |_|  |_|\___.|___/|_|  \___/ |_|  |_|_|\___.|_|
 """
 
 header8 = """
-     _                   ______                        
- ___/__) ,        /)    (, /    )           /)         
-(, /      _/__/_ //  _    /---(  __  ____/_(/    _  __ 
+     _                   ______
+ ___/__) ,        /)    (, /    )           /)
+(, /      _/__/_ //  _    /---(  __  ____/_(/    _  __
   /    _(_(__(__(/__(/_) / ____)/ (_(_) (__/ )__(/_/ (_
- (_____               (_/ (                            
-        )                                              
+ (_____               (_/ (
+        )
 """
 
 header9 = """
-   __ _ _   _   _        ___           _   _               
-  / /(_) |_| |_| | ___  / __\_ __ ___ | |_| |__   ___ _ __ 
+   __ _ _   _   _        ___           _   _
+  / /(_) |_| |_| | ___  / __\_ __ ___ | |_| |__   ___ _ __
  / / | | __| __| |/ _ \/__\// '__/ _ \| __| '_ \ / _ \ '__|
-/ /__| | |_| |_| |  __/ \/  \ | | (_) | |_| | | |  __/ |   
-\____/_|\__|\__|_|\___\_____/_|  \___/ \__|_| |_|\___|_|                                                              
+/ /__| | |_| |_| |  __/ \/  \ | | (_) | |_| | | |  __/ |
+\____/_|\__|\__|_|\___\_____/_|  \___/ \__|_| |_|\___|_|
 """
 
 header11 = """
-  |     _)  |    |    |        __ )               |    |                 
-  |      |  __|  __|  |   _ \  __ \    __|  _ \   __|  __ \    _ \   __| 
-  |      |  |    |    |   __/  |   |  |    (   |  |    | | |   __/  |    
- _____| _| \__| \__| _| \___| ____/  _|   \___/  \__| _| |_| \___| _|    
+  |     _)  |    |    |        __ )               |    |
+  |      |  __|  __|  |   _ \  __ \    __|  _ \   __|  __ \    _ \   __|
+  |      |  |    |    |   __/  |   |  |    (   |  |    | | |   __/  |
+ _____| _| \__| \__| _| \___| ____/  _|   \___/  \__| _| |_| \___| _|
 """
 
-header12 = """                                             
- __    _ _   _   _     _____         _   _           
-|  |  |_| |_| |_| |___| __  |___ ___| |_| |_ ___ ___ 
+header12 = """
+ __    _ _   _   _     _____         _   _
+|  |  |_| |_| |_| |___| __  |___ ___| |_| |_ ___ ___
 |  |__| |  _|  _| | -_| __ -|  _| . |  _|   | -_|  _|
-|_____|_|_| |_| |_|___|_____|_| |___|_| |_|_|___|_|  
+|_____|_|_| |_| |_|___|_____|_| |___|_| |_|_|___|_|
 
                  \\\\
                   \\\\_   \\\\
@@ -1840,67 +1841,67 @@ header12 = """
 """
 
 header13 = """
- __         __     ______   ______   __         ______                     
-/\ \       /\ \   /\__  _\ /\__  _\ /\ \       /\  ___\                    
-\ \ \____  \ \ \  \/_/\ \/ \/_/\ \/ \ \ \____  \ \  __\                    
- \ \_____\  \ \_\    \ \_\    \ \_\  \ \_____\  \ \_____\                  
-  \/_____/   \/_/     \/_/     \/_/   \/_____/   \/_____/                  
-                                                                           
- ______     ______     ______     ______   __  __     ______     ______    
-/\  == \   /\  == \   /\  __ \   /\__  _\ /\ \_\ \   /\  ___\   /\  == \   
-\ \  __<   \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  __ \  \ \  __\   \ \  __<   
- \ \_____\  \ \_\ \_\  \ \_____\    \ \_\  \ \_\ \_\  \ \_____\  \ \_\ \_\ 
-  \/_____/   \/_/ /_/   \/_____/     \/_/   \/_/\/_/   \/_____/   \/_/ /_/ 
+ __         __     ______   ______   __         ______
+/\ \       /\ \   /\__  _\ /\__  _\ /\ \       /\  ___\
+\ \ \____  \ \ \  \/_/\ \/ \/_/\ \/ \ \ \____  \ \  __\
+ \ \_____\  \ \_\    \ \_\    \ \_\  \ \_____\  \ \_____\
+  \/_____/   \/_/     \/_/     \/_/   \/_____/   \/_____/
+
+ ______     ______     ______     ______   __  __     ______     ______
+/\  == \   /\  == \   /\  __ \   /\__  _\ /\ \_\ \   /\  ___\   /\  == \
+\ \  __<   \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  __ \  \ \  __\   \ \  __<
+ \ \_____\  \ \_\ \_\  \ \_____\    \ \_\  \ \_\ \_\  \ \_____\  \ \_\ \_\
+  \/_____/   \/_/ /_/   \/_____/     \/_/   \/_/\/_/   \/_____/   \/_/ /_/
 """
 
 header14 = """
-    __    _ __  __  __     ____             __  __             
+    __    _ __  __  __     ____             __  __
    / /   (_) /_/ /_/ /__  / __ )_________  / /_/ /_  ___  _____
   / /   / / __/ __/ / _ \/ __  / ___/ __ \/ __/ __ \/ _ \/ ___/
- / /___/ / /_/ /_/ /  __/ /_/ / /  / /_/ / /_/ / / /  __/ /    
-/_____/_/\__/\__/_/\___/_____/_/   \____/\__/_/ /_/\___/_/          
+ / /___/ / /_/ /_/ /  __/ /_/ / /  / /_/ / /_/ / / /  __/ /
+/_____/_/\__/\__/_/\___/_____/_/   \____/\__/_/ /_/\___/_/
 """
 
-header15 = """                                                                                             
-,--.   ,--.  ,--.    ,--.  ,--.       ,-----.                  ,--.  ,--.                    
-|  |   `--',-'  '-.,-'  '-.|  | ,---. |  |) /_ ,--.--. ,---. ,-'  '-.|  ,---.  ,---. ,--.--. 
-|  |   ,--.'-.  .-''-.  .-'|  || .-. :|  .-.  \|  .--'| .-. |'-.  .-'|  .-.  || .-. :|  .--' 
-|  '--.|  |  |  |    |  |  |  |\   --.|  '--' /|  |   ' '-' '  |  |  |  | |  |\   --.|  |    
-`-----'`--'  `--'    `--'  `--' `----'`------' `--'    `---'   `--'  `--' `--' `----'`--'                                                                                                 
+header15 = """
+,--.   ,--.  ,--.    ,--.  ,--.       ,-----.                  ,--.  ,--.
+|  |   `--',-'  '-.,-'  '-.|  | ,---. |  |) /_ ,--.--. ,---. ,-'  '-.|  ,---.  ,---. ,--.--.
+|  |   ,--.'-.  .-''-.  .-'|  || .-. :|  .-.  \|  .--'| .-. |'-.  .-'|  .-.  || .-. :|  .--'
+|  '--.|  |  |  |    |  |  |  |\   --.|  '--' /|  |   ' '-' '  |  |  |  | |  |\   --.|  |
+`-----'`--'  `--'    `--'  `--' `----'`------' `--'    `---'   `--'  `--' `--' `----'`--'
 """
 
 header16 = """
- _____   __ __   __   __         ______              __   __               
+ _____   __ __   __   __         ______              __   __
 |     |_|__|  |_|  |_|  |.-----.|   __ \.----.-----.|  |_|  |--.-----.----.
 |       |  |   _|   _|  ||  -__||   __ <|   _|  _  ||   _|     |  -__|   _|
-|_______|__|____|____|__||_____||______/|__| |_____||____|__|__|_____|__|                 
+|_______|__|____|____|__||_____||______/|__| |_____||____|__|__|_____|__|
 """
 
 header17 = """
- ____ ____ ____ ____ ____ ____      
-||L |||i |||t |||t |||l |||e ||     
-||__|||__|||__|||__|||__|||__||     
-|/__\|/__\|/__\|/__\|/__\|/__\|     
- ____ ____ ____ ____ ____ ____ ____ 
+ ____ ____ ____ ____ ____ ____
+||L |||i |||t |||t |||l |||e ||
+||__|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/__\|
+ ____ ____ ____ ____ ____ ____ ____
 ||B |||r |||o |||t |||h |||e |||r ||
 ||__|||__|||__|||__|||__|||__|||__||
 |/__\|/__\|/__\|/__\|/__\|/__\|/__\|
 """
 
 header18 = """
-                                                              
-@@@      @@@ @@@@@@@ @@@@@@@ @@@      @@@@@@@@                
-@@!      @@!   @!!     @!!   @@!      @@!                     
-@!!      !!@   @!!     @!!   @!!      @!!!:!                  
-!!:      !!:   !!:     !!:   !!:      !!:                     
-: ::.: : :      :       :    : ::.: : : :: ::                 
-                                                              
-                                                              
-@@@@@@@  @@@@@@@   @@@@@@  @@@@@@@ @@@  @@@ @@@@@@@@ @@@@@@@  
-@@!  @@@ @@!  @@@ @@!  @@@   @!!   @@!  @@@ @@!      @@!  @@@ 
-@!@!@!@  @!@!!@!  @!@  !@!   @!!   @!@!@!@! @!!!:!   @!@!!@!  
-!!:  !!! !!: :!!  !!:  !!!   !!:   !!:  !!! !!:      !!: :!!  
-:: : ::   :   : :  : :. :     :     :   : : : :: ::   :   : : 
+
+@@@      @@@ @@@@@@@ @@@@@@@ @@@      @@@@@@@@
+@@!      @@!   @!!     @!!   @@!      @@!
+@!!      !!@   @!!     @!!   @!!      @!!!:!
+!!:      !!:   !!:     !!:   !!:      !!:
+: ::.: : :      :       :    : ::.: : : :: ::
+
+
+@@@@@@@  @@@@@@@   @@@@@@  @@@@@@@ @@@  @@@ @@@@@@@@ @@@@@@@
+@@!  @@@ @@!  @@@ @@!  @@@   @!!   @@!  @@@ @@!      @@!  @@@
+@!@!@!@  @!@!!@!  @!@  !@!   @!!   @!@!@!@! @!!!:!   @!@!!@!
+!!:  !!! !!: :!!  !!:  !!!   !!:   !!:  !!! !!:      !!: :!!
+:: : ::   :   : :  : :. :     :     :   : : : :: ::   :   : :
 """
 
 def lb_header():
@@ -1912,7 +1913,7 @@ def lb_header():
 helpMain = """
  Name                       Action
  ----                       ------
- Lookup                     Faire des recherches sur une personne. 
+ Lookup                     Faire des recherches sur une personne.
  Social engineering         Utiliser des outils pour du social engineering.
  Make file                  Creer un fichier '.txt' pour y ecrire les infos obtenu.
  Show Database              Accedez a la base de donnee.
@@ -1925,7 +1926,7 @@ helpLookup = """
  Name                             Action
  ----                             ------
  Personne lookup                  Faire des recherches avec un nom, prenom et (ville).
- Username lookup                  Faire des recherches avec un pseudonyme.  
+ Username lookup                  Faire des recherches avec un pseudonyme.
  Adresse lookup                   Faire des recherches avec une adresse.
  Phone lookup                     Faire des recherches avec un numero de telephone.
  IP lookup                        Faire des recherches avec une adresse IP.
@@ -1946,7 +1947,7 @@ helpLookup = """
 helpSEtool = """
  Name                             Action
  ----                             ------
- SMS                              Recevoir des SMS sur des numeros libre. 
+ SMS                              Recevoir des SMS sur des numeros libre.
  Spam email                       Spamer une adresse email.
 
  Back main menu                   Revenir au menu principal.
@@ -1965,7 +1966,7 @@ text = ['Press F to hack', 'LEAVE ME HERE', 'The security is an illusion.', 'Pro
  'Hello, friend', 'Hacking is our weapon', 'Hello, World', 'Login the world...', 'Big Brother is watching you.', 'Fuck Society', 'Wrench is calling...',
  'The control is an illusion.', 'install google_crack.exe...', 'you are free ! lol no, it was a joke.', 'you are a 1 or a 0 ?', 'Matraque: 1 - Genou: 0', 'Je veux que tu comprenne... Que tu ne sera plus jamais libre..', 'Tu pense être intouchable... Je vais briser tes illusion...',
  'je veux que tu sache... que tu n\'es plus anonyme...', 'Snapchat: T-Bone sent you a new message.', 'LulzSec <3 <3', '<3 Kraken Security OS is bae <3', 'DedSec is now in LinkedIn !',
- 'FRANCE World champion 2018 !!', '~~(8:> is Defalt ~~(8:>', 'Facebook: Neo in a relationship with Elliot Alderson.', 'Just.. fuck the society.', 'locating 192.168.1.34 ... No match found', 
+ 'FRANCE World champion 2018 !!', '~~(8:> is Defalt ~~(8:>', 'Facebook: Neo in a relationship with Elliot Alderson.', 'Just.. fuck the society.', 'locating 192.168.1.34 ... No match found',
  '01110000 01100101 01101110 01101001 01110011', '49 20 4c 4f 56 45 20 55', 'Regarde derrière toi...']
 
 # [!] LE JEUX COMMENCE A LA LIGNE 2000
@@ -1974,7 +1975,7 @@ lookupOption = """
  [1] Personne lookup          [8] Mail tracer                     [15] Hash decrypter
  [2] Username lookup          [9] Exif data
  [3] Adresse lookup           [10] Google search
- [4] Phone lookup             [11] Facebook GraphSearchq          
+ [4] Phone lookup             [11] Facebook GraphSearchq
  [5] IP lookup                [12] twitter info
  [6] SSID locator             [13] instagram info
  [7] Email lookup             [14] Check email
@@ -1985,23 +1986,23 @@ setoolOption = """
  [1] SMS
  [2] Spam email
 
- [b] back main menu    [e] Exit script    [h] Help Message    [c] Clear Screen 
+ [b] back main menu    [e] Exit script    [h] Help Message    [c] Clear Screen
 """
 
 def menu():
 
 	menu = """
-                         __..--.._ 
+                         __..--.._
   .....              .--~  .....  `.         Time:      [ %s | %s ]
 .":    "`-..  .    .' ..-'"    :". `         Author:    [ Lulz3xploit ]
 ` `._ ` _.'`"(     `-"'`._ ' _.' '           Version:   [ %s ]
      ~~~      `.          ~~~                Internet:  [ %s ]
-              .'                               
-             /                             
+              .'
+             /
             (                             %s
-             ^---'                                                                                  
+             ^---'
 	""" % (Fore.YELLOW+str(today)+Fore.RESET, Fore.YELLOW+times()+Fore.RESET, Fore.YELLOW+str(__version__)+Fore.RESET, internet, random.choice(text))
-	
+
 	print(lb_header())
 	print(menu)
 
@@ -2012,7 +2013,7 @@ print(mainOption)
 try:
 	while True:
 		choix = input("\n[LittleBrother:~$ ")
-	
+
 		if choix.lower() == 'h':
 			print(helpMain)
 		elif choix.lower() == 'c':
