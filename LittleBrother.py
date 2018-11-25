@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = 5.0
+__version__ = 6.0
 
 import sys, os, time, requests, random, threading
 from colorama import init, Fore,  Back,  Style
@@ -40,9 +40,8 @@ def loadlib():
 	import json
 	# import colorama
 	from datetime import date
-	import exifread
 
-	global requests, BeautifulSoup, re, SingleTable, AsciiTable, smtplib, socket, webbrowser, json, date, exifread, internet # monip # , colorama
+	global requests, BeautifulSoup, re, SingleTable, AsciiTable, smtplib, socket, webbrowser, json, date, internet # monip # , colorama
 	# monip = requests.get("https://api.ipify.org/").text
 try:
     req = requests.get("https://google.com/")
@@ -499,11 +498,11 @@ def searchTwitter():
 	print("[+] Langue: %s" % (langue.upper()))
 	print("[+] Privee: %s" % (protected))
 	print("[+] ID: %s" % (profilId))
-	print("[+] Protected: %s" % (protected))
-	print("[+] Abonnees: %s | Abonnements: %s" % (followers, friend))
+	print("[+] Privacy: %s" % (protected))
+	print("[+] Follwers: %s | Following: %s" % (followers, friend))
 	print("[+] Tweets: %s" % (status))
-	print("[+] Ville: %s" % (location))
-	print("[+] Naissance: %s"  % (naissance))
+	print("[+] Location: %s" % (location))
+	print("[+] Birthday: %s"  % (naissance))
 	print("[+] Url: %s" % (url))
 	print("[+] Create: %s" % (dateCreate))
 	print("[BIO]: %s" % (description))
@@ -527,17 +526,17 @@ def searchInstagram():
 	print("\n[+] Name: %s" % (name))
 	print("[+] Pictures: %s" % (images))
 	print("[+] ID: %s" % (userId))
-	print("[+] Protected: %s" % (private))
-	print("[+] Abonnees: %s  |  Abonnements: %s" % (followers, friend))
+	print("[+] Privacy: %s" % (private))
+	print("[+] Follwers: %s  |  Following: %s" % (followers, friend))
 	print("[+] Publication: %s" % (publication))
 	print("[+] Bio: %s" % (bio))
 
 def testConnexion():
 	try:
 		req = requests.get('http://google.com')
-		return("Connecte")
+		return("Connected")
 	except:
-		return("Aucune connexion internet")
+		return("Error")
 
 today = date.today()
 
@@ -548,10 +547,10 @@ def mkdir(dossier):
 		try:
 			return(os.mkdir(dossier))
 		except OSError:
-			print("[!] Une erreur est survenu lors du creation du dossier.")
+			print("[!] An error occurred while creating the folder.")
 
 def pause():
-	input("\n Appuyez sur [ENTER] pour retourner au Menu.")
+	input("\n Press [ENTER] to return to the Menu.")
 	#
 
 def printResult(name, adresse, num):
@@ -563,7 +562,7 @@ def printResult(name, adresse, num):
 
 	print("\n[Particulier] %s" % (name))
 	adresse = adresse.split(",")
-	print("(+) Adresse: %s %s" % (adresse[0], adresse[1]))
+	print("(+) Address: %s %s" % (adresse[0], adresse[1]))
 	print("(+) Telephone: %s" % (num))
 
 	if (num != ''):
@@ -571,78 +570,32 @@ def printResult(name, adresse, num):
 	else:
 		pass
 
-def emailSpam():
-	try:
-		email = input("[#][LittleBrother][SETool][Ton email:~$ ")
-		password = input("[#][LittleBrother][SETool][Ton mot de passe:~$ ")
-		print(wait+" Connexion...")
-
-		if ('@gmail' in email):
-			server = 'smtp.gmail.com'
-			port = 587
-
-		elif ('@live' in email or '@hotmail' in email or '@ootlook'):
-			server = 'smtp.live.com'
-			port = 465
-
-		try:
-			server = smtplib.SMTP(server, port)
-			server.ehlo()
-			server.starttls()
-			server.login(email, password)
-			print("[+] Connexion effectue avec succes !\n")
-		except:
-			print("[!] Mot de passe incorrect ! ")
-			sys.exit()
-		spoof_mail = input("[#][LittleBrother][SETool][From:~$ ")
-		target_email = input("[#][LittleBrother][SETool][To:~$ ")
-		nb = input("[#][LittleBrother][SETool][Nb Email a envoyer:~$ ")
-		nb = int(nb)
-
-		objet = input("[#][LittleBrother][SETool][Objet:~$ ")
-		message = input("[#][Inserer votre message ici > ")
-		send = 1
-
-		try:
-			while (nb >= send):
-				server.sendmail(email, target_email, message)
-				sys.stoud.write("\r%s -> %s (%s)" % (spoof_mail, target_email, send))
-				send = send+1
-		except KeyboardInterrupt:
-			print(str(send)+" mail envoye")
-			sys.exit()
-
-		print("")
-
-	except:
-		print("[!] Erreur")
-
 def facebookStalk():
 	profile = input("\n[#][LittleBrother][Lookup][ProfileFB:~$ ")
 
 	menuStalk = """
 
-        TAGS              PERSONNES              LIEUX
+        TAGS              PEOPLE                PLACES
     ------------        -------------        -------------
-    [1] Photos          [4] Famille          [10] Tout
-    [2] Videos          [5] Amis             [11] Bars
-    [3] Publication     [6] Amis en commun   [12] Restaurants
-                        [7] Travaille        [13] Magasin
-        LIKE            [8] Etude            [14] Exterieur
-    ------------        [9] Locaux           [15] Hotels
+    [1] Photos          [4] Family          [10] All
+    [2] Videos          [5] Friends          [11] Bars
+    [3] Posts           [6] Common Friends   [12] Restaurants
+                        [7] Job              [13] Store
+        LIKE            [8] Educatio         [14] Outside
+    ------------        [9] Location         [15] Hotels
     [17] Photos                              [16] Theatre
-    [18] Videos          COMMENTAIRE
-    [19] Publications   -------------          INTERETS
+    [18] Videos          COMMENTS
+    [19] Post           -------------          INTERESTS
                         [20] Photos          -------------
-        PROFIL                               [29] Pages
-    -------------                            [30] Politiques
+        PROFILE                               [29] Pages
+    -------------                            [30] Policies
     [21] Photos                              [31] Religion
-    [22] Videos                              [32] Musiques
-    [23] Publications                        [33] Films
-    [24] Groupes                             [34] Livres
-    [25] Futur evenements                    [35] Lieux
-    [26] Evenements passes
-    [27] Jeux
+    [22] Videos                              [32] Music
+    [23] Posts                               [33] Films
+    [24] Groups                              [34] Books
+    [25] Future Events                       [35] Places
+    [26] Past Events
+    [27] Games
     [28] Apps
 
         [b] Back    [c] Clear screen    [e] Exit script
@@ -758,28 +711,6 @@ def facebookStalk():
 					pass
 		break
 
-def bssidFinder():
-	bssid = input("[#][LittleBrother][Lookup][MAC/Bssid:~$ ")
-	# clear()
-	url = "https://api.mylnikov.org/geolocation/wifi?v=1.1&data=open&bssid="
-	response = requests.get(url+bssid).content.decode('utf-8')
-	data = response.content
-	values = json.loads(data)
-	code = str(values['result'])
-
-	if code == "404":
-		print("\n[%s]\n" % (bssid))
-		print("[!] Localisation Not Found")
-	else:
-		pass
-
-	try:
-		localisation = str(values['data']['lat']) + ','+str(values['data']['lon'])
-		print("\n[ %s ]" % (bssid))
-		print(" + Localisation: " + localisation)
-		print(" + Maps: https://www.google.fr/maps?q=%s" % (localisation))
-	except:
-		pass
 
 def ipFinder():
 	ip = input("\n[#][LittleBrother][Lookup][AdresseIP:~$ ")
@@ -831,59 +762,6 @@ def ipFinder():
 		# print(" Localisation: "+localisation)
 		# print(" + Maps: https://www.google.fr/maps?q=%s" % (localisation))
 
-def SearchEmail4():
-	email = input("\n[#][LittleBrother][Lookup][Email:~$ ")
-	print(wait+" Recherche d'information sur '%s'" % (email))
-	lkd = leaked()
-	leak = lkd.email(email)
-
-	if leak:
-		print(found+" Site leak : "+leak)
-		print(wait+" Recherche du Mot de passse...")
-		# email = email.replace("@", "%40")
-		# clear()
-		# url = "https://www.google.com/search?num=100&q=\%s\\"
-
-		table_dump = [
-			('Email', 'Password'),
-		]
-
-		url = "https://www.google.fr/search?num=100&q=\\intext:\"%s\"\\"
-		content = requests.get(url % (email)).text
-		urls = re.findall('url\\?q=(.*?)&', content)
-		cout = len(urls)
-		if cout == 0:
-			print(warning+" Aucun résultat.")
-		else:
-			print(wait+" Scan %s Link..." % (str(cout)))
-			x = 1
-			countPassword = 0
-			for url in urls:
-				if not "googleusercontent" in url:
-					if not "/settings/ads" in url:
-						if not "webcache.googleusercontent.com/" in url:
-							if not "/policies/faq" in url:
-								try:
-									# print("(%s) link scanned. " % (str(x)))
-									texte = requests.get(url).text
-									# print("Search...")
-									combo = re.search(email+r":([a-zA-Z0-9_ & * $ - ! / ; , ? + =  | \. ]+)", texte).group()
-									if combo:
-										passw = combo.split(":")[1]
-										tuples = (email, passw)
-										countPassword += 1
-										table_dump.append(tuples)
-										# print("[+] %s" % (combo))
-								except:
-									print("[?] %s " % (url))
-								# x = x + 1
-			if countPassword > 0:
-				table = SingleTable(table_dump, " Dump ")
-				print("\n"+table.table)
-			else:
-				pass
-	else:
-		print(warning+" Aucune donnée pour '%s' " % (email))
 
 def Search118218():
 	url = "http://www.118218.fr/recherche?category_id=&geo_id=&distance=46&category=&who=%s&where=%s"
@@ -1202,9 +1080,9 @@ def searchGoogle(requete='', requete2=''):
 					print("[+] Possible connection: "+url)
 
 def searchPersonne():
-	nom = input("\n[#][LittleBrother][Lookup][Prenom Nom:~$ ")
-	city = input("\n[#][LittleBrother][Lookup][Ville/Departement:~$ ")
-	print(wait+" Recherche...")
+	nom = input("\n[#][LittleBrother][Lookup][Name:~$ ")
+	city = input("\n[#][LittleBrother][Lookup][City:~$ ")
+	print(wait+" Searching...")
 
 	try:
 # Page Jaune search
@@ -1340,7 +1218,7 @@ def searchNumber():
 	print("\n"+table.table)
 
 def searchUserName():
-	username = input("\n[#][LittleBrother][Lookup][Pseudo:~$ ")
+	username = input("\n[#][LittleBrother][Lookup][Username:~$ ")
 	# clear()
 	# url = "https://www.google.com/search?num=100&q=\\\"%s\"\\"
 	url = "https://www.google.com/search?num=100&q=\\%s\\"
@@ -1349,25 +1227,6 @@ def searchUserName():
 	requete2 = requests.get(url2 % (username))
 	searchGoogle(requete=requete, requete2=requete2)
 
-def google():
-	nom = input("\n[#][LittleBrother][Lookup][nom, prenom, ville (...):~$ ")
-	url = "https://www.google.com/search?num=20&q=\\%s\\"
-	try:
-		nom2 = nom.split(" ")
-		nom = nom2[0]+'+'+nom2[1]
-	except:
-		pass
-	requete = requests.get(url % (nom))
-	searchGoogle(requete=requete)
-
-def exifRead():
-	photo = input("\n[#][LittleBrother][Lookup][Photo:~$ ")
-	print("[+] Decode exif data...")
-	with open(photo, 'rb') as f:
-		tags = exifread.process_file(f)
-		for tag in tags.keys():
-			if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
-				print("%s, value %s" % (tag, tags[tag]))
 
 def receive_sms():
 	def logTimes():
@@ -1403,14 +1262,6 @@ def receive_sms():
 	table_instance = SingleTable(TABLE_DATA, title)
 	print(table_instance.table)
 
-	while True:
-		s = input("\n[#][LittleBrother][SETool][Server ID:~$ ")
-		try:
-			int(s)
-			path = numDic.get(str(s))
-			break
-		except:
-			pass
 
 	url = url+path
 
@@ -1456,55 +1307,20 @@ def mailToIP():
 
 		return(values['country']+', '+values['region']+', '+ values['city'])
 
-	def get_domain(ip):
-		s = socket.gethostbyaddr(ip)
-		return(s[0])
 
-	files = input("\n[#][LittleBrother][Lookup][Entete:~$ ")
-	if not os.path.exists(files):
-		print("\n Fichier introuvable.")
-	else:
-		pass
-	# clear()
-	print(wait+" Recherche en cours ...")
-	f = open(files, 'r')
-
-	for line in f:
-		line.strip()
-		if "From: " in line:
-			print(information+" Message envoye par: "+line.replace("From: ",""))
-		if 'Received: from' in line:
-			ip_find = re.findall( r'[0-9]+(?:\.[0-9]+){3}', line )
-			for ip in ip_find:
-				try:
-					isp = isp_host(ip)
-					loc = ip_loc(ip)
-					domain = get_domain(ip)
-				except:
-					isp = 'Not found'
-					loc = 'Not found'
-					domain = 'Not found'
-
-				print("""
-[ %s ]
- + %s
- + %s
- + %s
-  				""" % (ip, domain, isp, loc))
-	f.close()
 
 def doxMaker():
-	prenom = input("Prénom : ")
-	nom = input("Nom : ")
-	naissance = input("Date de naissance : ")
-	telPortable = input("Numéro de téléphone portable : ")
+	prenom = input("First Name : ")
+	nom = input("Username : ")
+	naissance = input("Birthday : ")
+	telPortable = input("Phone : ")
 	email = input("Email : ")
 	fax = input("Fax : ")
-	telFixe = input("Numéro de téléphone fixe:  ")
-	ville = input("Ville : ")
-	adresse = input("Adresse : ")
-	cp = input("Code postal : ")
-	ip = input("adresse IP : ")
+	telFixe = input("Home Number:  ")
+	ville = input("City : ")
+	adresse = input("Address : ")
+	cp = input("Postal : ")
+	ip = input("IP : ")
 	nameFichier = prenom.capitalize()+'_'+nom.replace(" ", "_").capitalize()+'.txt'
 	if os.path.exists("Watched"):
 		pass
@@ -1512,40 +1328,40 @@ def doxMaker():
 		mkdir("Watched")
 
 	f = open("Watched/"+nameFichier,'a')
-	f.write("Prénom: "+prenom.capitalize())
-	f.write("\nNom: "+nom.capitalize())
-	f.write("\nDate de naissance: "+naissance)
-	f.write("\nTéléphone portable: "+telPortable)
-	f.write("\nTéléphone fixe: "+telFixe)
+	f.write("First Name: "+prenom.capitalize())
+	f.write("\nUsername: "+nom.capitalize())
+	f.write("\nBirthday: "+naissance)
+	f.write("\nPhone: "+telPortable)
+	f.write("\nFax: "+telFixe)
 	f.write("\nEmail: "+email)
 	f.write("\nFax: "+fax)
-	f.write("\nVille: "+ville.title())
-	f.write("\nAdresse: "+adresse.title())
-	f.write("\nCode postal: "+cp)
-	f.write("\nAdresse IP: "+ip)
-	s = input(" Voulez vous ajoutez des resaux sociaux a la liste ? [y/N]: ").upper()
+	f.write("\nCity: "+ville.title())
+	f.write("\nAddress: "+adresse.title())
+	f.write("\nPostal: "+cp)
+	f.write("\nIP: "+ip)
+	s = input(" Add Social Networks to list ? [y/N]: ").upper()
 	if s == 'Y':
 		while True:
-			reseaux = input(" Réseaux sociaux (ex: Facebook...): ")
-			name = input("Nom, pseudo, lien : ")
+			reseaux = input(" Social Network(ex: Facebook...): ")
+			name = input(" Link : ")
 			f.write("\n"+reseaux.capitalize()+': '+name)
-			c = input(" Rajouter un compte ? : [y/N]: ").upper()
+			c = input(" Add Another? : [y/N]: ").upper()
 			if c == 'Y':
 				pass
 			else:
 				break
 	else:
 		pass
-	s = input("Ajouter d'autre information ? [y/N]: ").upper()
+	s = input("More information ? [y/N]: ").upper()
 	if s == 'Y':
-		print(" ATTENTION! appuyez sur ENTRER une fois fini !\n")
-		print(" Utilser des ';' pour espacer les infos")
-		print("ex: couleur: bleu; bssid: FF:FF:FF:FF:FF; chat: miaou")
+		print(" Warning! Press Enter once more to save !\n")
+		print(" Use ';' to space the info")
+		print("ex: color: blue; bssid: FF:FF:FF:FF:FF; cat: meow")
 		infos = input("> ").replace("; ","\n")
 		f.write('\n'+infos)
 	else:
 		pass
-	print("\n[+] Fichier enregistre dans : 'Watched/"+nameFichier+"'")
+	print("\n[+] File saved @ : 'Watched/"+nameFichier+"'")
 
 def hashdecrypt():
 	hash = input("\n[#][LittleBrother][Lookup][Hash:~$ ")
@@ -1662,90 +1478,7 @@ def showDataBase():
 				print("[ID] %s" % (str(num)))
 				readProfile(nameFile)
 
-	helpMsg = """
- Name                      Action
- ----                      ------
- Search Profiles           Recherche un profile dans la base de donnee.
- Show all Profiles         Affiche tout les profiles de la base de donnee.
 
- Exit Database             Quitte la base de donnee pour retourner au menu principal.
- Help message              Affiche se message
-"""
-
-	menuLogo = """
-      :::::::::      ::: ::::::::::: :::
-     :+:    :+:   :+: :+:   :+:   :+: :+:
-    +:+    +:+  +:+   +:+  +:+  +:+   +:+
-   +#+    +:+ +#++:++#++: +#+ +#++:++#++:
-  +#+    +#+ +#+     +#+ +#+ +#+     +#+
- #+#    #+# #+#     #+# #+# #+#     #+#
-#########  ###     ### ### ###     ###
-      :::::::::      :::      ::::::::  ::::::::::
-     :+:    :+:   :+: :+:   :+:    :+: :+:
-    +:+    +:+  +:+   +:+  +:+        +:+
-   +#++:++#+  +#++:++#++: +#++:++#++ +#++:++#
-  +#+    +#+ +#+     +#+        +#+ +#+
- #+#    #+# #+#     #+# #+#    #+# #+#
-#########  ###     ###  ########  ##########
-"""
-
-	menu = "\n[s] Search Profiles     [a] Show all Profiles    [e] Exit Database    [c] Clear screen   [h] Help message"
-
-	clear()
-	print(menuLogo)
-	print("[*] Access to the Database...")
-	print("[*] Search Data...")
-
-	ProfilesDic = {}
-	x = 1
-
-	if os.path.exists("Watched"):
-		print("[+] Data Found.")
-
-	else:
-		print("[!] Data not found ! ")
-		print("[?] Want to create a new folder ? [ Y / N ]")
-		s = input(" ")
-
-		if s.upper() == 'Y':
-			mkdir("Watched")
-			print("[+] The file was successfully created.")
-
-		else:
-			pass
-
-	datas = os.listdir("Watched")
-
-	for data in datas:
-		# print("%s) %s" % (str(x), data.replace(".txt", "")))
-		ProfilesDic[data] = x
-		x = x + 1
-
-		if str(x) == '0':
-			print("[!] No profiles found.")
-
-	else:
-		profilesCount = x-1
-		print("[+] %s Profiles Found." % (str(profilesCount)))
-
-		while True:
-			print(menu)
-
-			choix = input("\n[#][LittleBrother][Database:~$ ")
-
-			if choix.lower() == 'h':
-				print(helpMsg)
-			elif choix.lower() == 's':
-				searchProfiles()
-			elif choix.lower() == 'a':
-				showAllProfiles(ProfilesDic)
-			elif choix.lower() == 'c':
-				clear()
-				print(menuLogo)
-			elif choix.lower() == 'e':
-				break
-			else:
-				print("Command not found")
 
 
 header1 = """
@@ -1914,9 +1647,8 @@ helpMain = """
  Name                       Action
  ----                       ------
  Lookup                     Faire des recherches sur une personne.
- Social engineering         Utiliser des outils pour du social engineering.
  Make file                  Creer un fichier '.txt' pour y ecrire les infos obtenu.
- Show Database              Accedez a la base de donnee.
+
 
  Exit                       Quitter le logiciel.
  Help                       Affiche se message.
@@ -1925,40 +1657,24 @@ helpMain = """
 helpLookup = """
  Name                             Action
  ----                             ------
- Personne lookup                  Faire des recherches avec un nom, prenom et (ville).
- Username lookup                  Faire des recherches avec un pseudonyme.
- Adresse lookup                   Faire des recherches avec une adresse.
- Phone lookup                     Faire des recherches avec un numero de telephone.
- IP lookup                        Faire des recherches avec une adresse IP.
- SSID locator                     Faire des recherches avec une adresse MAC/BSSID
- Email lookup                     Faire des recherches avec une adresse email.
- Mail tracer                      Faire des recherches avec l'entete d'un mail.
- Exif data                        Faire des recherches grace au MetaData d'une photo.
- Google search                    Faire des recherches sur google.
- Facebook graphSearch             Faire des recherche grace au graphSearch.
- twitter info                     Recuperer les informations d'un compte Twitter.
- instagram info                   Recuperer les informations d'un compte Instagram.
- Hash decrypter                   Essaye de secrypter un hash via une base de donnée en ligne.
+ Name Lookup                      Does research with a name, first name and (city).
+ Username Lookup                  Does research on username.
+ Address lookup                   Looks up Address.
+ Phone lookup                     Looks up phone number.
+ IP lookup                        Looks up IP address.
+ Facebook Crawler                 Crawls through Facebook profile.
+ Twitter                          Recovers information from Twitter account.
+ Instagram                        Recovers information from Instagram account.
+ Hash Decrypter                   Decrypts Hashes.
 
- Back main menu                   Revenir au menu principal.
- Exit script                      Pour quitter le logiciel.
- Clear screen                     Efface l'ecran."""
+ Back main menu                   Return to Main  Menu.
+ Exit script                      Exit Script.
+ Clear screen                     Clears Screen."""
 
-helpSEtool = """
- Name                             Action
- ----                             ------
- SMS                              Recevoir des SMS sur des numeros libre.
- Spam email                       Spamer une adresse email.
-
- Back main menu                   Revenir au menu principal.
- Exit script                      Pour quitter le logiciel.
- Clear screen                     Efface l'ecran."""
 
 mainOption = """
  [1] Lookup
- [2] Social engineering tool
- [3] Make file
- [4] Show Database
+ [2] Create .txt File
 
  [e] Exit script    [h] Help Message    [c] Clear Screen"""
 
@@ -1972,36 +1688,32 @@ text = ['Press F to hack', 'LEAVE ME HERE', 'The security is an illusion.', 'Pro
 # [!] LE JEUX COMMENCE A LA LIGNE 2000
 
 lookupOption = """
- [1] Personne lookup          [8] Mail tracer                     [15] Hash decrypter
- [2] Username lookup          [9] Exif data
- [3] Adresse lookup           [10] Google search
- [4] Phone lookup             [11] Facebook GraphSearchq
- [5] IP lookup                [12] twitter info
- [6] SSID locator             [13] instagram info
- [7] Email lookup             [14] Check email
+ [1] Name Lookup       [8] Instagram Info
+ [2] Username Lookup   [9] Check Email
+ [3] Address Lookup    [10] Hash Decrypter
+ [4] Phone Lookup
+ [5] IP Lookup
+ [6] Facebook Crawler
+ [7] Twitter Info
 
- [b] back main menu    [e] Exit script    [h] Help Message    [c] Clear Screen"""
 
-setoolOption = """
- [1] SMS
- [2] Spam email
 
- [b] back main menu    [e] Exit script    [h] Help Message    [c] Clear Screen
-"""
+ [b] Back Main Menu    [e] Exit Script    [h] Help    [c] Clear Screen"""
+
 
 def menu():
 
 	menu = """
                          __..--.._
-  .....              .--~  .....  `.         Time:      [ %s | %s ]
-.":    "`-..  .    .' ..-'"    :". `         Author:    [ Lulz3xploit ]
+  .....              .--~  .....  `.         Local Time:      [ %s | %s ]
+.":    "`-..  .    .' ..-'"    :". `         Authors:    [ Lulz3xploit , %s]
 ` `._ ` _.'`"(     `-"'`._ ' _.' '           Version:   [ %s ]
-     ~~~      `.          ~~~                Internet:  [ %s ]
-              .'
+     ~~~      `.          ~~~                Check Local Connection:  [ %s ]
+              .'                             Language: [ %s ]
              /
             (                             %s
              ^---'
-	""" % (Fore.YELLOW+str(today)+Fore.RESET, Fore.YELLOW+times()+Fore.RESET, Fore.YELLOW+str(__version__)+Fore.RESET, internet, random.choice(text))
+	""" % (Fore.YELLOW+str(today)+Fore.RESET, Fore.YELLOW+times()+Fore.RESET,Fore.BLUE+("spookyvert")+Fore.RESET,Fore.YELLOW+str(__version__)+Fore.RESET, internet ,Fore.WHITE+("ENG")+Fore.RESET,random.choice(text))
 
 	print(lb_header())
 	print(menu)
@@ -2020,12 +1732,7 @@ try:
 			clear()
 			menu()
 			print(mainOption)
-		elif choix == '4':
-			showDataBase()
-			clear()
-			menu()
-			print(mainOption)
-		elif choix == '3':
+		elif choix == '2':
 			doxMaker()
 		elif choix.lower() == 'e':
 			sys.exit(information+" Bye ! :)")
@@ -2041,33 +1748,17 @@ try:
 					searchPersonne()
 				elif lookup.lower() == '5':
 					ipFinder()
-				elif lookup.lower() == '6':
-					bssidFinder()
-				elif lookup.lower() == '4':
-					searchNumber()
-				elif lookup.lower() == '7':
-					SearchEmail4()
-				#  ...
-				elif lookup.lower() == '3':
-					searchAdresse()
-				elif lookup.lower() == '2':
-					searchUserName()
-				elif lookup.lower() == '10':
-					google()
-				elif lookup.lower() == '9':
-					exifRead()
-				elif lookup.lower() == '8':
-					mailToIP()
-				elif lookup.lower() == "11":
+				elif lookup.lower() == "6":
 					facebookStalk()
-				elif lookup.lower() == "12":
+				elif lookup.lower() == '7':
 					searchTwitter()
-				elif lookup.lower() == "13":
+				elif lookup.lower() == "8":
 					searchInstagram()
-				elif lookup.lower() == "14":
+				elif lookup.lower() == "9":
 					check_email_exist()
-				elif lookup.lower() == "15":
+				elif lookup.lower() == "10":
 					hashdecrypt()
+
 
 				elif lookup.lower() == "b":
 					clear()
@@ -2082,33 +1773,6 @@ try:
 					pass
 				elif lookup.lower() == "e":
 					sys.exit(information+" Bye ! :)")
-				else:
-					print("Commande introuvable")
-		elif choix == '2':
-			clear()
-			menu()
-			print(setoolOption)
-			while True:
-				se = input("\n[LittleBrother][SETool:~$ ")
-				if se == 'h':
-					print(helpSEtool)
-				elif se.lower() == "1":
-					receive_sms()
-				elif se.lower() == "2":
-					emailSpam()
-				elif se.lower() == "b":
-					clear()
-					menu()
-					print(mainOption)
-					break
-				elif se.lower() == "c":
-					clear()
-					menu()
-					print(setoolOption)
-				elif se == '':
-					pass
-				elif se.lower() == "e":
-					sys.exit(information+" Bye ! :) ")
 				else:
 					print("Commande introuvable")
 		else:
