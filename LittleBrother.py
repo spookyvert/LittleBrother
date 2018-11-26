@@ -2,15 +2,15 @@
 
 __version__ = 6.0
 
-import sys, os, time, requests, random, threading
+import sys, os, time, emoji,requests, random, threading
 from colorama import init, Fore,  Back,  Style
 
 init()
 
-warning = "["+Fore.RED+"!"+Fore.RESET+"]"
+warning = "["+Fore.CYAN+"!"+Fore.RESET+"]"
 question = "["+Fore.YELLOW+"?"+Fore.RESET+"]"
 information = "["+Fore.BLUE+"I"+Fore.RESET+"]"
-wait = "["+Fore.MAGENTA+"*"+Fore.RESET+"]"
+wait = "["+Fore.CYAN+"*"+Fore.RESET+"]"
 found = "["+Fore.GREEN+"+"+Fore.RESET+"]"
 tiret = "["+Fore.CYAN+"-"+Fore.RESET+"]"
 
@@ -47,11 +47,11 @@ try:
     req = requests.get("https://google.com/")
     internet = Fore.GREEN+"√"+Fore.RESET
 except:
-    internet = Fore.RED+"X"+Fore.RESET
+    internet = Fore.CYAN+"X"+Fore.RESET
 
 
 def loadingHack(importlib):
-	chaine = Fore.MAGENTA +'[*] Start LittleBrother...'
+	chaine = Fore.CYAN +'[*] Start LittleBrother...'
 	charspec = "$*.X^%_/\\#~!?;"
 
 	while importlib.is_alive():
@@ -473,7 +473,7 @@ def times():
 	return times
 
 def searchTwitter():
-	username = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Username:~$ ")
+	username = input(Fore.CYAN + "\n + [LittleBrother][Lookup][Username:~$ ")
 	twitool = twitterSearchTool()
 	twitool.getInfoProfile(username)
 
@@ -495,7 +495,7 @@ def searchTwitter():
 
 	print("[@%s]" % (username))
 	print("\n[+] Name: %s" % (name))
-	print("[+] Langue: %s" % (langue.upper()))
+	print("[+] Language: %s" % (langue.upper()))
 	print("[+] Privacy: %s" % (protected))
 	print("[+] ID: %s" % (profilId))
 	print("[+] Privacy: %s" % (protected))
@@ -508,7 +508,7 @@ def searchTwitter():
 	print("[BIO]: %s" % (description))
 
 def searchInstagram():
-	user = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Username:~$ ")
+	user = input(Fore.CYAN + "\n + [LittleBrother][Lookup][Username:~$ ")
 
 	insta = instagramGetInfo(user)
 
@@ -571,7 +571,7 @@ def printResult(name, adresse, num):
 		pass
 
 def facebookStalk():
-	profile = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][ProfileFB:~$ ")
+	profile = input(Fore.CYAN + "\n + [LittleBrother][Lookup][ProfileFB:~$ ")
 
 	menuStalk = """
 
@@ -678,7 +678,7 @@ def facebookStalk():
 			print("[!] Impossible de recuperer l'ID.")
 			_id_  = input("\n[?] Connaissez-vous l'ID ? [O/N]: ")
 			if _id_.upper() == "O" or _id_.upper() == "Y":
-				facebookID = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][ID:~$ ")
+				facebookID = input(Fore.CYAN + "\n + [LittleBrother][Lookup][ID:~$ ")
 				input(facebookID)
 			else:
 				break
@@ -687,7 +687,7 @@ def facebookStalk():
 		print(menuStalk)
 
 		while True:
-			s = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][StalkFB:~$ ")
+			s = input(Fore.CYAN + "\n + [LittleBrother][Lookup][StalkFB:~$ ")
 			if s == "help":
 				print(helpMsgFbStalk)
 			elif s.lower() == "c":
@@ -713,7 +713,7 @@ def facebookStalk():
 
 
 def ipFinder():
-	ip = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][AdresseIP:~$ ")
+	ip = input(Fore.CYAN + "\n + [LittleBrother][Lookup][AdresseIP:~$ ")
 	# clear()
 
 	TABLE_DATA = []
@@ -766,8 +766,8 @@ def ipFinder():
 def Search118218():
 	url = "http://www.118218.fr/recherche?category_id=&geo_id=&distance=46&category=&who=%s&where=%s"
 
-	name = input("\n[#][LittleBrother][Lookup][Nom Prenom:~$ ")
-	city = input("\n[#][LittleBrother][Lookup][Ville/Departement:~$")
+	name = input("\n + [LittleBrother][Lookup][Nom Prenom:~$ ")
+	city = input("\n + [LittleBrother][Lookup][Ville/Departement:~$")
 
 	data = requests.get(url % (name, city)).content.decode('utf-8')
 
@@ -808,7 +808,7 @@ def Search118218():
 		print("______________")
 
 def check_email_exist():
-	email_address = input(Fore.MAGENTA + "[LittleBrother][#][Email:~$ ")
+	email_address = input(Fore.CYAN + "[LittleBrother] + [Email:~$ ")
 	print(wait+" Verification...")
 	addressToVerify = email_address
 
@@ -942,7 +942,7 @@ def searchPJ(requete='', num=''):
 	soup = BeautifulSoup(page, "html.parser")
 	rep = testResponse(requete)
 	if rep == 1:
-		print(warning+" Aucun résultat pour votre recherche... o_o'")
+		print(warning+" No Results... o_o'")
 		if num != '':
 			# phoneNumber(num)
 			pass
@@ -1080,13 +1080,15 @@ def searchGoogle(requete='', requete2=''):
 					print("[+] Possible connection: "+url)
 
 def searchPersonne():
-	nom = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Name:~$ ")
-	city = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][City:~$ ")
+	nom = input(Fore.CYAN +"\n + [LittleBrother][Lookup][Name:~$ ")
+	city = input(Fore.CYAN + "\n + [LittleBrother][Lookup][City:~$ ")
+	state = input(Fore.CYAN + "\n + [LittleBrother][Lookup][State Code Ex: "NY":~$ ")
 	print(wait+" Searching...")
 
 	try:
 # Page Jaune search
 		url = "https://www.pagesjaunes.fr/pagesblanches/recherche?quoiqui={}&ou={}"
+		url_temp = "https://proapi.whitepages.com/3.0/person?name={}&address.city={}&address.state_code={}&api_key=07ad0e3eda904389be1ce083ffd9e255e"
 		headers = {
 			'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
     	    'referrer': 'https://google.com',
@@ -1096,7 +1098,7 @@ def searchPersonne():
         	'Pragma': 'no-cache'
         }
 
-		requete = requests.get(url.format(nom, city), headers=headers)
+		requete = requests.get(url.format(nom, city, state), headers=headers)
 		searchPJ(requete)
 
 # Copain d'avant search
@@ -1166,7 +1168,7 @@ def searchPersonne():
 		pass
 
 def searchAdresse():
-	adresse = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Adresse:~$ ")
+	adresse = input(Fore.CYAN + "\n + [LittleBrother][Lookup][Adresse:~$ ")
 	# clear()
 	url = "https://www.pagesjaunes.fr/pagesblanches/recherche?quoiqui=&ou="
 	headers = {
@@ -1181,7 +1183,7 @@ def searchAdresse():
 	searchPJ(requete)
 
 def searchNumber():
-	num = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Phone:~$ ")
+	num = input(Fore.CYAN + "\n + [LittleBrother][Lookup][Phone:~$ ")
 	url = "https://www.pagesjaunes.fr/annuaireinverse/recherche?quoiqui="
 	headers = {
 		'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
@@ -1218,7 +1220,7 @@ def searchNumber():
 	print("\n"+table.table)
 
 def searchUserName():
-	username = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Username:~$ ")
+	username = input(Fore.CYAN + "\n + [LittleBrother][Lookup][Username:~$ ")
 	# clear()
 	# url = "https://www.google.com/search?num=100&q=\\\"%s\"\\"
 	url = "https://www.google.com/search?num=100&q=\\%s\\"
@@ -1364,7 +1366,7 @@ def doxMaker():
 	print("\n[+] File saved @ : 'Watched/"+nameFichier+"'")
 
 def hashdecrypt():
-	hash = input(Fore.MAGENTA + "\n[#][LittleBrother][Lookup][Hash:~$ ")
+	hash = input(Fore.CYAN + "\n + [LittleBrother][Lookup][Hash:~$ ")
 	print(wait+" Decrypt '%s'..." % (hash))
 	lkd = leaked()
 	password = lkd.hash(hash)
@@ -1672,7 +1674,7 @@ helpLookup = """
  Clear screen                     Clears Screen."""
 
 
-mainOption = Fore.WHITE + """
+mainOption = Fore.CYAN + """
  [1] Lookup
  [2] Create .txt File
 
@@ -1687,7 +1689,7 @@ text = ['Press F to hack', 'LEAVE ME HERE', 'The security is an illusion.', 'Pro
 
 # [!] LE JEUX COMMENCE A LA LIGNE 2000
 
-lookupOption = """
+lookupOption = Fore.CYAN + """
  [1] Name Lookup       [8] Instagram Info
  [2] Username Lookup   [9] Check Email
  [3] Address Lookup    [10] Hash Decrypter
@@ -1697,15 +1699,12 @@ lookupOption = """
  [7] Twitter Info
 
 
+[b] Back Main Menu    [e] Exit Script    [h] Help    [c] Clear Screen"""
 
- [b] Back Main Menu    [e] Exit Script    [h] Help    [c] Clear Screen"""
-
-
-today = today
 
 def menu():
-	hi = "hi"
-	menu_temp = """
+	menu = """
+
                          __..--.._
   .....              .--~  .....  `.         Local Time:      [ %s | %s ]
 .":    "`-..  .    .' ..-'"    :". `         Authors:    [ Lulz3xploit , %s]
@@ -1715,8 +1714,7 @@ def menu():
              /
             (                             %s
              ^---'
-	""" % (Fore.YELLOW+str(today)+Fore.RESET, Fore.YELLOW+times()+Fore.RESET,Fore.BLUE+("spookyvert")+Fore.RESET,Fore.YELLOW+str(__version__)+Fore.RESET, internet ,Fore.WHITE+("ENG")+Fore.RESET,random.choice(text))
-	menu = Fore.WHITE + menu_temp
+	""" % (Fore.YELLOW+str(today)+Fore.RESET, Fore.YELLOW+times()+Fore.RESET,Fore.CYAN+("spookyvert")+Fore.RESET,Fore.YELLOW+str(__version__)+Fore.RESET, internet ,Fore.CYAN+("ENG")+Fore.RESET,random.choice(text))
 
 	print(lb_header())
 	print(menu)
@@ -1727,7 +1725,7 @@ print(mainOption)
 
 try:
 	while True:
-		choix = input(Fore.MAGENTA + "\n[LittleBrother:~$ ")
+		choix = input(Fore.CYAN + "\n[LittleBrother:~$ ")
 
 		if choix.lower() == 'h':
 			print(helpMain)
@@ -1744,7 +1742,7 @@ try:
 			menu()
 			print(lookupOption)
 			while True:
-				lookup = input(Fore.MAGENTA + "\n[LittleBrother][Lookup:~$ ")
+				lookup = input(Fore.CYAN + "\n[LittleBrother][Lookup:~$ ")
 				if lookup == 'h':
 					print(helpLookup)
 				elif lookup.lower() == '1':
@@ -1777,9 +1775,9 @@ try:
 				elif lookup.lower() == "e":
 					sys.exit(information+" Bye ! :)")
 				else:
-					print("Commande introuvable")
+					print("Command not Found")
 		else:
-			print("Commande introuvable")
+			print("Command not Found")
 
 except KeyboardInterrupt:
 	sys.exit(information+" Bye ! :)")
