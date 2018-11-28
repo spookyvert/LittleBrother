@@ -1082,7 +1082,7 @@ def searchGoogle(requete='', requete2=''):
 def searchPersonne():
 	nom = input(Fore.CYAN +"\n + [LittleBrother][Lookup][Name:~$ ")
 	city = input(Fore.CYAN + "\n + [LittleBrother][Lookup][City:~$ ")
-	state = input(Fore.CYAN + "\n + [LittleBrother][Lookup][State Code Ex: "NY":~$ ")
+	state = input(Fore.CYAN + "\n + [LittleBrother][Lookup][State Code Ex: NY:~$ ")
 	print(wait+" Searching...")
 
 	try:
